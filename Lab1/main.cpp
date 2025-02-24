@@ -32,12 +32,12 @@ double Newton(double x_k, double eps) {
 	double x_k1;
 	int k = 0;
 	for (;;) {
+		k++;
 		x_k1 = x_k - f(x_k) / f_(x_k);
 		std::cout << "k=" << k << " , x_k=" << x_k << ", |x_k - x_k-1|=" << fabs(x_k - x_k1) << std::endl;
 		if (fabs(x_k1 - x_k) < eps)
 			break;
 		x_k = x_k1;
-		k++;
 	}
 	return x_k1;
 }
@@ -47,12 +47,12 @@ double Newton2(double x_k, double eps) {
 	double der = f_(x_k);
 	int k = 0;
 	for (;;) {
+		k++;
 		x_k1 = x_k - f(x_k) / der;
 		std::cout << "k=" << k << " , x_k=" << x_k << ", |x_k - x_k-1|=" << fabs(x_k - x_k1) << std::endl;
 		if (fabs(x_k1 - x_k) < eps)
 			break;
 		x_k = x_k1;
-		k++;
 	}
 	return x_k1;
 }
@@ -61,13 +61,15 @@ double Sek(double x_k0, double x_k, double eps) {
 	double x_k1;
 	int k = 0;
 	for (;;) {
+		k++;
 		x_k1 = x_k - f(x_k) * (x_k - x_k0) / (f(x_k) - f(x_k0));
 		std::cout << "k=" << k << ", x_k=" << x_k << ", |x_k - x_k-1|=" << fabs(x_k - x_k0) << std::endl;
-		if (fabs(x_k1 - x_k) < eps) 
+		if (fabs(x_k1 - x_k) < eps) {
+			x_k = x_k1;
 			break;
+		}
 		x_k0 = x_k;
 		x_k = x_k1;
-		k++;
 	}
 	return x_k;
 }
@@ -77,7 +79,7 @@ int main() {
 
 	double a = 0.0, b = 2.0;
 	double eps_dih = 1e-2;
-	double eps = 1e-7;
+	double eps = 1e-8;
 
 	std::cout << "Метод Дихотомии: " << '\n';
 	double dikhotomiya_root = dih(a, b, eps_dih);
@@ -93,6 +95,6 @@ int main() {
 	std::cout << "Корень, найденный методом Ньютона с постоянной поизводной: " << newton2_root << '\n' << '\n';
 
 	std::cout << "Метод Секущих: " << '\n';
-	double sec_root = Sek(dikhotomiya_root, dikhotomiya_root + 0.1, eps);
+	double sec_root = Sek(dikhotomiya_root, 1.6875, eps);
 	std::cout << "Корень, найденный методом секущих: " << sec_root << '\n' << '\n';
 }

@@ -80,22 +80,22 @@ int main() {
 		h_arr[i] = x[i] - x[i - 1];
 	}
 
-	C[0] = h_arr[1] / 3;
-	C[n] = 1;
-	for (int i = 1; i < n; ++i) {
+	C[0] = 1;
+	C[n] = h_arr[n] / 3;
+	for (int i = 1; i < n; i++) {
 		C[i] = (h_arr[i] + h_arr[i + 1]) / 3;
 	}
 
-	for (int i = 1; i < n; ++i) {
+	A[n] = h_arr[n] / 6;
+	B[0] = 0;
+	for (int i = 1; i < n; i++) {
 		A[i] = h_arr[i] / 6;
 		B[i] = h_arr[i + 1] / 6;
 	}
-	A[n] = 0;
-	B[0] = h_arr[1] / 6;
 
-	F[0] = (y[1] - y[0]) / h_arr[1] - df(a);
-	F[n] = d2f(b);
-	for (int i = 1; i < n; ++i) {
+	F[0] = d2f(x[0]);  // S''(x0) = f''(x0)
+	F[n] = df(x[n]) - (y[n] - y[n-1]) / h_arr[n];  // S'(xn) = f'(xn)
+	for (int i = 1; i < n; i++) {
 		F[i] = (y[i + 1] - y[i]) / h_arr[i + 1] - (y[i] - y[i - 1]) / h_arr[i];
 	}
 

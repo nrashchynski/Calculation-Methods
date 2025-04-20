@@ -104,7 +104,7 @@ int main() {
 	std::ofstream fout("output.txt");
 	double max_diff = 0;
 	for (int i = 0; i <= 100; i++) {
-		double X = a + i * (b - a) / 100;
+		double X = a + (double)i * (b - a) / 100;
 		double fx = f(X);
 		double sx = S3(M, x, h_arr, y, n, X);
 		fout << X << " " << fx << " " << sx << std::endl;
